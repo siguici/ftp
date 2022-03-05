@@ -1,5 +1,6 @@
 {
   "name": "ftp/ftp",
+  "type": "project",
   "description": "Put/Get files between client and server via FTP",
   "homepage": "https://packagist.org/packages/ftp/ftp",
   "license": "Apache-2.0",
