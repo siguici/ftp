@@ -17,7 +17,7 @@ class FtpServer {
     protected $client;
 
     public function login(string $username, string $password): FtpClient {
-        if (!($this->client = new FtpClient($this, $username, $password))
+        if (!($this->client = new FtpClient($this, $username, $password)))
             $this->do('raise', new FtpException("Failed to login $username", FtpException::LOGIN_FAILURE));
         return $this->client;
     }
