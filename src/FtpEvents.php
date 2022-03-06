@@ -1,6 +1,13 @@
 <?php namespace Ftp;
 
 trait FtpEvents {
+    protected array $eventEmitters = [];
+
+    public function to(FtpEventHandler $eventEmitter): self {
+		$this->eventEmitters[] = $eventEmitter;
+		return $this;
+	}
+
     protected array $eventListeners = [];
 
 	public function todo(): array {
@@ -8,17 +15,31 @@ trait FtpEvents {
 	}
 
     public function on(string $event, callable $eventListener): self {
+        foreach ($this->eventEmitters as $eventEmitter) {
+			$eventEmitter->on($event, $eventListener);
+		}
+
         if (!isset($this->eventListeners[$event])) {
             $this->eventListeners[$event] = [];
         }
         $this->eventListeners[$event][] = $eventListener;
+
         return $this;
     }
 
-    public function undo(string $event, callable $eventListener): self {
+    public function undo(string $event, ?callable $eventListener = null): self {
+        foreach ($this->eventEmitters as $eventEmitter) {
+			$eventEmitter->undo($event, $eventListener);
+		}
+
         if (!isset($this->eventListeners[$event])) {
             return $this;
         }
+
+		if (is_null($eventListener)) {
+			unset($this->eventListeners[$event]);
+			return $this;
+		}
 
         if (false === ($key = array_search($eventListener, $this->eventListeners[$event]))) {
             return $this;
@@ -31,6 +52,10 @@ trait FtpEvents {
     protected array $eventsListened = [];
 
     public function do(string $event, mixed ...$data): self {
+        foreach ($this->eventEmitters as $eventEmitter) {
+			$eventEmitter->do($event, $eventListener);
+		}
+
         if (!isset($this->eventListeners[$event])) {
             return $this;
         }
