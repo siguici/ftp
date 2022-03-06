@@ -1,6 +1,6 @@
 <?php namespace Ftp;
 
-class FtpEnv implements \ArrayAccess, \IteratorAggregate, \Countable {
+class FtpEnv implements \ArrayAccess, \IteratorAggregate, \Countable, \Stringable {
     public function __construct(array $vars = []) {
    		$this->setAll($vars);
     }
@@ -169,4 +169,12 @@ class FtpEnv implements \ArrayAccess, \IteratorAggregate, \Countable {
     public function __debugInfo(): array {
         return $this->vars;
     }
+
+    public function __toString(): string {
+		return self::format($this->vars);
+	}
+
+	public function __invoke(string $key, mixed $default = null): mixed {
+		return $this->get($key, $default);
+	}
 }
