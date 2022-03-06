@@ -1,7 +1,7 @@
 <?php namespace Ftp;
 
 class FtpApplication {
-	use FtpEvents;
+	use FtpEvent;
 
 	public function __construct(protected string $name) {
 		$this->init();

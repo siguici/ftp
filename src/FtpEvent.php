@@ -1,6 +1,6 @@
 <?php namespace Ftp;
 
-trait FtpEvents {
+trait FtpEvent {
     protected array $eventEmitters = [];
 
     public function to(FtpEventHandler $eventEmitter): self {

@@ -1,7 +1,7 @@
 <?php namespace Ftp;
 
 trait Ftp {
-	use FtpEvents;
+	use FtpEvent;
 
     protected $ftp;
 
